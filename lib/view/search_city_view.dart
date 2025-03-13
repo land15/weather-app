@@ -1,9 +1,9 @@
-import 'package:clima_app/model/city_model.dart';
 import 'package:clima_app/view/weather_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/weather_provider.dart';
 import '../service/preferences.dart';
-import '../service/weather_service.dart';
 
 class SearchCityView extends StatefulWidget {
   const SearchCityView({super.key});
@@ -13,37 +13,12 @@ class SearchCityView extends StatefulWidget {
 }
 
 class _SearchCityViewState extends State<SearchCityView> {
-  final WeatherService weatherService = WeatherService();
   final TextEditingController _searchController = TextEditingController();
-  List<CityModel> _cities = [];
-  bool _isLoading = false;
-
-  void _searchCities() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final cities = await weatherService.searchCities(_searchController.text);
-      setState(() {
-        _cities = cities;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao buscar cidades: $e')),
-      );
-      setState(() {
-        _cities = [];
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final weatherProvider = Provider.of<WeatherProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Buscar Cidade'),
@@ -58,19 +33,22 @@ class _SearchCityViewState extends State<SearchCityView> {
                 labelText: 'Digite o nome da cidade',
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: _searchCities,
+                  onPressed: () =>
+                      weatherProvider.searchCities(_searchController.text),
                 ),
               ),
-              onChanged: (_) => _searchCities(),
-              onSubmitted: (_) => _searchCities(),
+              onChanged: (_) =>
+                  weatherProvider.searchCities(_searchController.text),
+              onSubmitted: (_) =>
+                  weatherProvider.searchCities(_searchController.text),
             ),
-            _isLoading
+            weatherProvider.isLoading
                 ? Expanded(child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: ListView.builder(
-                      itemCount: _cities.length,
+                      itemCount: weatherProvider.cities.length,
                       itemBuilder: (context, index) {
-                        final city = _cities[index];
+                        final city = weatherProvider.cities[index];
                         return ListTile(
                           title: Text('${city.name}, ${city.country}'),
                           onTap: () async {
@@ -78,9 +56,7 @@ class _SearchCityViewState extends State<SearchCityView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => WeatherView(
-                                  cityName: city.name,
-                                ),
+                                builder: (context) => WeatherView(),
                               ),
                             );
                           },

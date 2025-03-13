@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Scaffold(body: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasData) {
-                  return WeatherView(cityName: snapshot.data!);
+                  return WeatherView();
                 } else {
                   return SearchCityView(); // Fallback
                 }

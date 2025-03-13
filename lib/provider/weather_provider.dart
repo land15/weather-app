@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../model/weather_model.dart';
 import '../service/database_helper.dart';
+import '../service/preferences.dart';
 import '../service/weather_service.dart';
 
 class WeatherProvider with ChangeNotifier {
@@ -13,11 +14,13 @@ class WeatherProvider with ChangeNotifier {
   List<WeatherModel> _history = [];
   bool _isLoading = false;
   WeatherModel? _currentWeather;
+  WeatherModel? _preferenceWeather;
 
   List<CityModel> get cities => _cities;
   List<WeatherModel> get history => _history;
   bool get isLoading => _isLoading;
   WeatherModel? get currentWeather => _currentWeather;
+  WeatherModel? get preferenceWeather => _preferenceWeather;
 
   Future<void> searchCities(String query) async {
     _isLoading = true;
@@ -47,8 +50,25 @@ class WeatherProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addToHistory(WeatherModel weather) async {
-    await _dbHelper.insertWeather(weather);
+  Future<void> fetchPreferenceWeather() async {
+    _isLoading = true;
+    notifyListeners();
+
+    String? cityName = await Preferences.getCity();
+
+    try {
+      _preferenceWeather = await _weatherService.fetchWeather(cityName!);
+    } catch (e) {
+      _currentWeather = null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> addToHistory(String cityName) async {
+    await fetchWeather(cityName);
+    await _dbHelper.insertWeather(_currentWeather!);
     await _loadHistory();
   }
 
@@ -59,6 +79,7 @@ class WeatherProvider with ChangeNotifier {
   }
 
   Future<void> loadHistory() async {
+    await fetchPreferenceWeather();
     await _loadHistory();
   }
 

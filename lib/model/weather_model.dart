@@ -1,20 +1,20 @@
 class WeatherModel {
-  final String cityName;
-  final String description;
-  final double temperature;
-  final double minimumTemperature;
-  final double maximumTemperature;
-  final int humidity;
-  final DateTime requestTime;
+  final String? cityName;
+  final String? description;
+  final double? temperature;
+  final double? minimumTemperature;
+  final double? maximumTemperature;
+  final int? humidity;
+  final DateTime? requestTime;
 
   WeatherModel(
-      {required this.cityName,
-      required this.description,
-      required this.requestTime,
-      required this.minimumTemperature,
-      required this.maximumTemperature,
-      required this.temperature,
-      required this.humidity});
+      { this.cityName,
+       this.description,
+       this.requestTime,
+       this.minimumTemperature,
+       this.maximumTemperature,
+       this.temperature,
+       this.humidity});
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,7 +24,7 @@ class WeatherModel {
       'minimumTemperature': minimumTemperature,
       'maximumTemperature': maximumTemperature,
       'humidity': humidity,
-      'requestTime': requestTime.toIso8601String(),
+      'requestTime': requestTime?.toIso8601String(),
     };
   }
 

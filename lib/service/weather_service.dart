@@ -18,8 +18,8 @@ class WeatherService {
   }
 
   Future<WeatherModel> fetchWeather(String cityName) async {
-    final response = await http
-        .get(Uri.parse('$baseUrl/data/2.5/weather?q=$cityName&appid=$apiKey&units=metric'));
+    final response = await http.get(Uri.parse(
+        '$baseUrl/data/2.5/weather?q=$cityName&appid=$apiKey&units=metric'));
 
     final jsonResponse = json.decode(response.body);
     return WeatherModel.fromJson(jsonResponse);
