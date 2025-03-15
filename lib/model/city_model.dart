@@ -19,4 +19,6 @@ class CityModel {
       lon: json['lon'],
     );
   }
+
+  static String tableName = 'cidade';
 }
