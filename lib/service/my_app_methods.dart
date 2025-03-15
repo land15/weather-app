@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../model/city_model.dart';
 
 class MyAppMethods {
-  static void confirmCitySelection({
+    static void confirmCitySelection({
     required BuildContext context,
     required CityModel city,
     required Function function,

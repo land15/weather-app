@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/home/marcelo/fvm/versions/3.29.1/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/marcelo/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/marcelo/Projects/weather-app/android/app/.cxx/Debug/2y4w264a/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/marcelo/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/marcelo/Projects/weather-app/android/app/.cxx/Debug/2y4w264a/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/home/marcelo/Android/Sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/linux-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/home/marcelo/Android/Sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}
