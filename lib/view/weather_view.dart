@@ -21,7 +21,7 @@ class _WeatherViewState extends State<WeatherView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final weatherProvider = Provider.of<WeatherProvider>(context, listen: false);
       await weatherProvider.loadHistory();
-      weather = weatherProvider.preferenceWeather!;
+      weather = weatherProvider.preferenceWeather ?? WeatherModel();
     });
     super.initState();
   }

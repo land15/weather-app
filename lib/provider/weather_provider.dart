@@ -11,12 +11,14 @@ class WeatherProvider with ChangeNotifier {
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
   List<CityModel> _cities = [];
+  List<CityModel> _cities2 = [];
   List<WeatherModel> _history = [];
   bool _isLoading = false;
   WeatherModel? _currentWeather;
   WeatherModel? _preferenceWeather;
 
   List<CityModel> get cities => _cities;
+  List<CityModel> get cities2 => _cities2;
   List<WeatherModel> get history => _history;
   bool get isLoading => _isLoading;
   WeatherModel? get currentWeather => _currentWeather;
@@ -30,6 +32,20 @@ class WeatherProvider with ChangeNotifier {
       _cities = await _weatherService.searchCities(query);
     } catch (e) {
       _cities = [];
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> searchCities2(String query) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _cities2 = await _weatherService.searchCities(query);
+    } catch (e) {
+      _cities2 = [];
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -59,7 +75,7 @@ class WeatherProvider with ChangeNotifier {
     try {
       _preferenceWeather = await _weatherService.fetchWeather(cityName!);
     } catch (e) {
-      _currentWeather = null;
+      _preferenceWeather = null;
     } finally {
       _isLoading = false;
       notifyListeners();

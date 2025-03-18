@@ -8,13 +8,13 @@ class WeatherModel {
   final DateTime? requestTime;
 
   WeatherModel(
-      { this.cityName,
-       this.description,
-       this.requestTime,
-       this.minimumTemperature,
-       this.maximumTemperature,
-       this.temperature,
-       this.humidity});
+      {this.cityName,
+      this.description,
+      this.requestTime,
+      this.minimumTemperature,
+      this.maximumTemperature,
+      this.temperature,
+      this.humidity});
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,9 +32,9 @@ class WeatherModel {
     return WeatherModel(
       cityName: map['cityName'],
       description: map['description'],
-      temperature: map['temperature'],
-      minimumTemperature: map['minimumTemperature'],
-      maximumTemperature: map['maximumTemperature'],
+      temperature: _ensureDouble(map['temperature']),
+      minimumTemperature: _ensureDouble(map['minimumTemperature']),
+      maximumTemperature: _ensureDouble(map['maximumTemperature']),
       humidity: map['humidity'],
       requestTime: DateTime.now(),
     );
@@ -44,11 +44,22 @@ class WeatherModel {
     return WeatherModel(
       cityName: json['name'],
       description: json['weather'][0]['description'],
-      temperature: json['main']['temp'],
-      minimumTemperature: json['main']['temp_min'],
-      maximumTemperature: json['main']['temp_max'],
+      temperature: _ensureDouble(json['main']['temp']),
+      minimumTemperature: _ensureDouble(json['main']['temp_min']),
+      maximumTemperature: _ensureDouble(json['main']['temp_max']),
       humidity: json['main']['humidity'],
       requestTime: DateTime.now(),
     );
+  }
+
+  static double? _ensureDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is int) {
+      return value.toDouble();
+    } else if (value is double) {
+      return value;
+    } else {
+      throw Exception('Tipo de dado inválido para temperatura: $value');
+    }
   }
 }

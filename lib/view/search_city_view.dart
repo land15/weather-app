@@ -34,21 +34,21 @@ class _SearchCityViewState extends State<SearchCityView> {
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () =>
-                      weatherProvider.searchCities(_searchController.text),
+                      weatherProvider.searchCities2(_searchController.text),
                 ),
               ),
               onChanged: (_) =>
-                  weatherProvider.searchCities(_searchController.text),
+                  weatherProvider.searchCities2(_searchController.text),
               onSubmitted: (_) =>
-                  weatherProvider.searchCities(_searchController.text),
+                  weatherProvider.searchCities2(_searchController.text),
             ),
             weatherProvider.isLoading
                 ? Expanded(child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: ListView.builder(
-                      itemCount: weatherProvider.cities.length,
+                      itemCount: weatherProvider.cities2.length,
                       itemBuilder: (context, index) {
-                        final city = weatherProvider.cities[index];
+                        final city = weatherProvider.cities2[index];
                         return ListTile(
                           title: Text('${city.name}, ${city.country}'),
                           onTap: () async {
