@@ -53,6 +53,7 @@ class _SearchCityViewState extends State<SearchCityView> {
                           title: Text('${city.name}, ${city.country}'),
                           onTap: () async {
                             await Preferences.saveCity(city.name);
+                            weatherProvider.cities2.clear();
                             Navigator.push(
                               context,
                               MaterialPageRoute(

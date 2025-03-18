@@ -78,6 +78,7 @@ class _WeatherViewState extends State<WeatherView> {
                                     city: currentCity,
                                     function: () => weatherProvider.addToHistory(currentCity.name),
                                   );
+                                  weatherProvider.cities2.clear();
                                 },
                               );
                             },

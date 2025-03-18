@@ -12,7 +12,6 @@ class WeatherService {
       query: {
         'q': query,
         'limit': '5',
-        'lang': 'pt_br',
       },
     );
 
@@ -26,6 +25,7 @@ class WeatherService {
       query: {
         'q': cityName,
         'units': 'metric',
+        'lang': 'pt_br',
       },
     );
 
